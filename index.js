@@ -2,7 +2,7 @@ const discogs_search_link = 'https://api.discogs.com/database/search';
 
 const discogsQuery = {
     year:'',
-    per_page: '10',
+    per_page: '50',
     type: 'master',
     genre:"",
     style: "",
@@ -21,7 +21,6 @@ function getDataFromApi(){
 }
 
 function showCoverThumbs(data){
-    console.log(data);
     let results = data.results.map(a => `<img src="${a.thumb}">`);
     $('.results-container').html(results);
 }
