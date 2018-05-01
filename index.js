@@ -2,7 +2,7 @@ const discogs_search_link = 'https://api.discogs.com/database/search';
 
 const discogsQuery = {
     year:'',
-    per_page: '50',
+    per_page: '30',
     type: 'master',
     genre:"",
     style: "",
@@ -20,22 +20,83 @@ function getDataFromApi(){
     })
 }
 
-function showCoverThumbs(data){
-    let results = data.results.map(a => `<img src="${a.thumb}">`);
-    $('.results-container').html(results);
+/* function compareYearToSortData(a, b) {
+    const yearA = parseInt(a.year, 10);
+    const yearB = parseInt(b.year, 10);
+
+    if (yearA > yearB) {
+      comparison = 1;
+    } else if (yearA < yearB) {
+      comparison = -1;
+    }
+    return comparison*-1;
+  }   */
+
+  function compare(a,b) {
+    const yearA = parseInt(a.year,10);
+    const yearB = parseInt(b.year,10);
+    if (yearA < yearB)
+      return 1;
+    if (yearA > yearB)
+      return -1;
+    return 0;
+  }
+
+
+function sortDataByYear(data){
+    const sortedResults = data.results.slice(0).sort(compare);
+    return sortedResults;
 }
+
+function showCoverThumbs(data){
+    let results = sortDataByYear(data);
+    let resultThumbs = results.map(function(a){
+        if(a.thumb != false){
+            return `<div class="result-cover"><img src="${a.thumb}" class="cover-art"><br><span>${a.id} - ${a.year}</span></div>`;
+        }
+    });
+    $('.covers-search').removeClass('covers-top-margin');
+    $('.typeahead').typeahead('close');
+    $('.results-container').html(resultThumbs);
+}
+
+let leeyang = [];
+
+/*     console.log(results);
+    let counter = 1;
+    for (let i = 0; i < results.length; i++) {
+        let link = results[i].thumb;
+        $('.results-container').find(`.col-${counter}`).append(`<img src="${link}">`);
+        counter++;
+        if(counter === 8){
+            counter = 1;
+        }
+    } */
 
 function watchSubmit(){
     $('.search-input').submit(function(event) {
         event.preventDefault();
         const searchInputVal = $(this).find('.tt-input').val();
-        determineSearchInputCat(searchInputVal);
+        determineSearchValVaild(searchInputVal);
     })
 }
 
 $(watchSubmit);
 
 //eval if input is genre or style
+function determineSearchValVaild(searchInputVal){
+    let searchValGenreScore = $.inArray(searchInputVal, genres);
+    let searchValStyleScore = $.inArray(searchInputVal, styles);
+    let searchValScore =searchValGenreScore+searchValStyleScore;
+    if(searchValScore >= 0){
+        determineSearchInputCat(searchInputVal);
+    }
+    else{
+        return null;
+    }
+}
+
+
 function determineSearchInputCat(searchInputVal){
   let searchInputCatScore = $.inArray(searchInputVal,genres);
   if(searchInputCatScore>0){
