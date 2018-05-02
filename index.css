@@ -1,10 +1,9 @@
 body{
-    background: url("music-1645561_1920.jpg") no-repeat; 
+    background: url("music-1645561_1920.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover; 
-    min-height: 100%;
+    background-size: cover;
 }
 
 .main-container{
@@ -39,9 +38,20 @@ body{
     font-size: 60px;
 }
 
+.search-container{
+    display:flex;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    transition: 1s;
+}
+
+.sc-topmargin{
+    padding: 300px;
+}
+
 .covers-search{
-    margin: auto;
-    margin-top: 40px;
+    padding-top: 20px;
     text-align: center;
     background-color: rgba(0, 0, 0, 1);
     border-radius: 10px;
@@ -54,10 +64,7 @@ body{
     transition: 1s;
 }
 
-.covers-top-margin{
-    margin-top: 400px;
-}
-
+/*typeahead */
 .typeahead, .tt-query, .tt-hint {
 	border: 1px solid #CCCCCC;
 	border-radius: 8px;
@@ -141,7 +148,9 @@ body{
 .results-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    width: 75%;
+    margin: 0 auto;
+    transition-duration: 2s;
 }
 
 /*cover stuff*/

@@ -20,31 +20,36 @@ function getDataFromApi(){
     })
 }
 
-/* function compareYearToSortData(a, b) {
-    const yearA = parseInt(a.year, 10);
-    const yearB = parseInt(b.year, 10);
-
-    if (yearA > yearB) {
-      comparison = 1;
-    } else if (yearA < yearB) {
-      comparison = -1;
-    }
-    return comparison*-1;
-  }   */
-
-  function compare(a,b) {
+/* function sortByYear(a,b) {
     const yearA = parseInt(a.year,10);
     const yearB = parseInt(b.year,10);
     if (yearA < yearB)
-      return 1;
+        return 1;
     if (yearA > yearB)
-      return -1;
+        return -1;
     return 0;
-  }
+} */
 
+function sortByYear(a,b) {
+    if(a.year == undefined){
+        return 1;
+    }
+    const yearA = parseInt(a.year,10);
+    const yearB = parseInt(b.year,10);
+    if (yearA < yearB){
+        return 1;
+    }
+    if (yearA > yearB){
+        return -1;
+    }
+    if (yearA == yearB){
+        return 0;
+    }
+}
 
 function sortDataByYear(data){
-    const sortedResults = data.results.slice(0).sort(compare);
+        console.log(data);
+    let sortedResults = data.results.slice(0).sort(sortByYear);
     return sortedResults;
 }
 
@@ -52,26 +57,13 @@ function showCoverThumbs(data){
     let results = sortDataByYear(data);
     let resultThumbs = results.map(function(a){
         if(a.thumb != false){
-            return `<div class="result-cover"><img src="${a.thumb}" class="cover-art"><br><span>${a.id} - ${a.year}</span></div>`;
+            return `<div class="result-cover"><img src="${a.thumb}" class="cover-art"><br><span>${a.year}</span></div>`;
         }
     });
-    $('.covers-search').removeClass('covers-top-margin');
+    $('.search-container').removeClass('sc-topmargin');
     $('.typeahead').typeahead('close');
     $('.results-container').html(resultThumbs);
 }
-
-let leeyang = [];
-
-/*     console.log(results);
-    let counter = 1;
-    for (let i = 0; i < results.length; i++) {
-        let link = results[i].thumb;
-        $('.results-container').find(`.col-${counter}`).append(`<img src="${link}">`);
-        counter++;
-        if(counter === 8){
-            counter = 1;
-        }
-    } */
 
 function watchSubmit(){
     $('.search-input').submit(function(event) {
@@ -96,7 +88,6 @@ function determineSearchValVaild(searchInputVal){
     }
 }
 
-
 function determineSearchInputCat(searchInputVal){
   let searchInputCatScore = $.inArray(searchInputVal,genres);
   if(searchInputCatScore>0){
@@ -110,6 +101,7 @@ function determineSearchInputCat(searchInputVal){
   getDataFromApi();
 }
 
+//typeahead functions
 //typeahead dataset
 const genres = ["Blues","Brass & Military","Children's","Classical","Electronic","Folk, World, & Country","Funk / Soul",
 "Hip-Hop","Jazz","Latin","Non-Music","Pop","Reggae","Rock","Stage & Screen",]
