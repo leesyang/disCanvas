@@ -4,17 +4,16 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    font-family: Oswald;
 }
 
-.main-container{
-    height: 100%;
-}
-
-/*logo*/
+/*-------------------logo-----------------*/
 .logo-container {
     font-size: 50px;
     font-family: Lato;
     color: white;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .logo-container span:nth-child(1){
@@ -25,6 +24,7 @@ body{
 
 .logo, .site-icon{
     display: inline-block;
+    white-space: nowrap;
 }
 
 .site-icon{
@@ -38,6 +38,12 @@ body{
     font-size: 60px;
 }
 
+/*---------------search container -----------*/
+.search-input{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
 .search-container{
     display:flex;
     justify-content: center;
@@ -47,26 +53,40 @@ body{
 }
 
 .sc-topmargin{
-    padding: 300px;
+    padding-top: 300px;
 }
 
 .covers-search{
     padding-top: 20px;
+    padding-bottom: 20px;
     text-align: center;
     background-color: rgba(0, 0, 0, 1);
     border-radius: 10px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    margin-right: 5px;
+    margin-left: 5px;
     width: 500px;
-    height: 200px;
     transition: 1s;
 }
 
-/*typeahead */
+.submit-button{
+    border: 1px solid white;
+    background: none;
+    font-family: Oswald;
+    font-weight: 300;
+    color: white;
+    margin-top: 15px;
+    padding: 5px;
+}
+
+/*----------------------typeahead--------------------*/
+span.twitter-typeahead{
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .typeahead, .tt-query, .tt-hint {
-	border: 1px solid #CCCCCC;
+    border: 2px solid #CCCCCC;
+    box-sizing: border-box;
 	border-radius: 8px;
     font-size: 22px; /* Set input font size */
     font-family: Oswald;
@@ -74,8 +94,8 @@ body{
 	height: 30px;
 	line-height: 30px;
 	outline: medium none;
-	padding: 8px 12px;
-	width: 396px;
+	padding: 20px 12px;
+	width: 100%;
 }
 .typeahead {
 	background-color: #FFFFFF;
@@ -104,7 +124,7 @@ body{
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 	margin-top: 12px;
 	padding: 8px 0;
-	width: 422px;
+	width: 100%;
 }
 .tt-suggestion {
     font-size: 22px;  /* Set suggestion dropdown font size */
@@ -134,32 +154,30 @@ body{
     border-radius: 5px;
 }
 
-.submit-button{
-    border: 1px solid white;
-    background: none;
-    font-family: Oswald;
-    font-weight: 300;
-    color: white;
-    margin-top: 15px;
-    padding: 5px;
-}
-
-/*search results*/
+/*-----------------------search results-----------------------*/
 .results-container{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     width: 75%;
     margin: 0 auto;
     transition-duration: 2s;
 }
 
-/*cover stuff*/
+/*----------------------cover stuff----------------------*/
 .result-cover{
-    /* display: inline-block; */
     margin: 5px;
     width: 150px;
     height: 200px;
-    border: 1px solid grey;
+    border: 1px solid rgba(0, 0, 0, 1);
+    border-radius: 0px 0px 10px 10px;
+    background-color: rgba(0, 0, 0, 0.8)
+}
+
+.result-cover:hover, .result-cover:focus{
+    box-shadow: 0px 0px 15px #cf3800;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 .cover-art img{
@@ -168,7 +186,7 @@ body{
 }
 
 
-/*footer stuff*/
+/*-----------------------footer stuff----------------------*/
 .push{
     height:80px;
 }
@@ -180,4 +198,9 @@ body{
     width: 100%;
     background: linear-gradient(to top, #cac9c9, white);
     z-index: -2;
+}
+
+/*if doesn't work use display:none; height: 0px? possibility*/
+.sr-only{
+    visibility: hidden;
 }

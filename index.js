@@ -20,18 +20,8 @@ function getDataFromApi(){
     })
 }
 
-/* function sortByYear(a,b) {
-    const yearA = parseInt(a.year,10);
-    const yearB = parseInt(b.year,10);
-    if (yearA < yearB)
-        return 1;
-    if (yearA > yearB)
-        return -1;
-    return 0;
-} */
-
 function sortByYear(a,b) {
-    if(a.year == undefined){
+    if(a.year === undefined || a.year === ""){
         return 1;
     }
     const yearA = parseInt(a.year,10);
@@ -42,9 +32,7 @@ function sortByYear(a,b) {
     if (yearA > yearB){
         return -1;
     }
-    if (yearA == yearB){
         return 0;
-    }
 }
 
 function sortDataByYear(data){
@@ -55,13 +43,19 @@ function sortDataByYear(data){
 
 function showCoverThumbs(data){
     let results = sortDataByYear(data);
+        console.log(results);
     let resultThumbs = results.map(function(a){
         if(a.thumb != false){
-            return `<div class="result-cover"><img src="${a.thumb}" class="cover-art"><br><span>${a.year}</span></div>`;
+            return `<a class="result-cover" href="#${a.id}" data-lity>
+            <img src="${a.thumb}" class="cover-art"></a>
+            <div id="${a.id}" class="lity-hide"><img src="${a.cover_image}">
+            <div class="album-info"><p class="album-year">Release Year: ${a.year}</p><p class="album-label">Album Label: ${a.label}</div></p></div>
+            </div>`;
         }
     });
     $('.search-container').removeClass('sc-topmargin');
     $('.typeahead').typeahead('close');
+    $('.typeahead').val('');
     $('.results-container').html(resultThumbs);
 }
 
