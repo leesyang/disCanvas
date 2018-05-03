@@ -6,6 +6,7 @@ const discogsQuery = {
     type: 'master',
     genre:"",
     style: "",
+    page:"1",
 }
 
 function getDataFromApi(){
@@ -21,11 +22,11 @@ function getDataFromApi(){
 }
 
 function sortByYear(a,b) {
-    if(a.year === undefined || a.year === ""){
+    if(a.year === undefined){
         return 1;
     }
-    const yearA = parseInt(a.year,10);
-    const yearB = parseInt(b.year,10);
+    let yearA = parseInt(a.year,10);
+    let yearB = parseInt(b.year,10);
     if (yearA < yearB){
         return 1;
     }
@@ -36,27 +37,50 @@ function sortByYear(a,b) {
 }
 
 function sortDataByYear(data){
-        console.log(data);
     let sortedResults = data.results.slice(0).sort(sortByYear);
     return sortedResults;
 }
 
-function showCoverThumbs(data){
+function generateCoverThumbs(data){
     let results = sortDataByYear(data);
         console.log(results);
-    let resultThumbs = results.map(function(a){
+    let resultCoverString = results.map(function(a){
+        if(a.year === undefined){
+            a.year = 'Unknown Release Date';
+        }
         if(a.thumb != false){
             return `<a class="result-cover" href="#${a.id}" data-lity>
-            <img src="${a.thumb}" class="cover-art"></a>
+            <img src="${a.thumb}" class="cover-art">
+            <p class="album-year">${a.year}</p></a>
             <div id="${a.id}" class="lity-hide"><img src="${a.cover_image}">
-            <div class="album-info"><p class="album-year">Release Year: ${a.year}</p><p class="album-label">Album Label: ${a.label}</div></p></div>
+            <div class="album-info"><p class="album-artist-title">${a.title}</p><p class="album-label">Label: ${a.label}</div></p></div>
             </div>`;
-        }
-    });
+    }
+});
+    return resultCoverString;
+}
+
+function showCoverThumbs(data){
+        console.log(data);
+    let resultThumbs = generateCoverThumbs(data);
     $('.search-container').removeClass('sc-topmargin');
     $('.typeahead').typeahead('close');
     $('.typeahead').val('');
-    $('.results-container').html(resultThumbs);
+    $('.results-container').append(resultThumbs);
+    generateMoreCoversFeature();
+}
+
+function generateMoreCoversFeature(){
+    $('.results-container').append('<div class="result-cover get-more"><button class="more-covers-button">Get More Covers</button></div>');
+    $(watchMoreResults);
+}
+
+function watchMoreResults(){
+    $('.more-covers-button').click(function(event){
+        $('.more-covers-button').parent().empty().append('<span class="more-results">More Results --></span>')
+        discogsQuery.page++;
+        getDataFromApi();
+    })
 }
 
 function watchSubmit(){
