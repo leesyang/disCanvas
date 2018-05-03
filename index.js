@@ -1,7 +1,6 @@
 const discogs_search_link = 'https://api.discogs.com/database/search';
 
 const discogsQuery = {
-    year:'',
     per_page: '30',
     type: 'master',
     genre:"",
@@ -33,7 +32,9 @@ function sortByYear(a,b) {
     if (yearA > yearB){
         return -1;
     }
+    if (yearA === yearB){
         return 0;
+    }
 }
 
 function sortDataByYear(data){
@@ -70,6 +71,7 @@ function showCoverThumbs(data){
     generateMoreCoversFeature();
 }
 
+//functions to handle more results
 function generateMoreCoversFeature(){
     $('.results-container').append('<div class="result-cover get-more"><button class="more-covers-button">Get More Covers</button></div>');
     $(watchMoreResults);
@@ -86,6 +88,7 @@ function watchMoreResults(){
 function watchSubmit(){
     $('.search-input').submit(function(event) {
         event.preventDefault();
+        $('.results-container').empty();
         const searchInputVal = $(this).find('.tt-input').val();
         determineSearchValVaild(searchInputVal);
     })
