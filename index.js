@@ -51,9 +51,9 @@ function generateCoverThumbs(data){
         }
         if(a.thumb != false){
             return `<a class="result-cover" href="#${a.id}" data-lity>
-            <img src="${a.thumb}" class="cover-art">
+            <img src="${a.thumb}" class="cover-art" alt="cover image for album: ${a.title}">
             <p class="album-year">${a.year}</p></a>
-            <div id="${a.id}" class="lity-hide"><img src="${a.cover_image}">
+            <div id="${a.id}" class="lity-hide"><img class="cover-image" src="${a.cover_image}">
             <div class="album-info"><p class="album-artist-title">${a.title}</p><p class="album-label">Label: ${a.label}</div></p></div>
             </div>`;
     }
@@ -79,7 +79,7 @@ function generateMoreCoversFeature(){
 
 function watchMoreResults(){
     $('.more-covers-button').click(function(event){
-        $('.more-covers-button').parent().empty().append('<span class="more-results">More Results --></span>')
+        $('.more-covers-button').parent().removeClass().addClass('see-more').empty().append('<span class="more-results">More Results --></span>')
         discogsQuery.page++;
         getDataFromApi();
     })
