@@ -2,7 +2,7 @@ const discogs_search_link = 'https://api.discogs.com/database/search';
 
 const discogsQuery = {
     year:'',
-    per_page: '50',
+    per_page: '30',
     type: 'master',
     genre:"",
     style: "",
@@ -20,22 +20,68 @@ function getDataFromApi(){
     })
 }
 
+function sortByYear(a,b) {
+    if(a.year === undefined || a.year === ""){
+        return 1;
+    }
+    const yearA = parseInt(a.year,10);
+    const yearB = parseInt(b.year,10);
+    if (yearA < yearB){
+        return 1;
+    }
+    if (yearA > yearB){
+        return -1;
+    }
+        return 0;
+}
+
+function sortDataByYear(data){
+        console.log(data);
+    let sortedResults = data.results.slice(0).sort(sortByYear);
+    return sortedResults;
+}
+
 function showCoverThumbs(data){
-    let results = data.results.map(a => `<img src="${a.thumb}">`);
-    $('.results-container').html(results);
+    let results = sortDataByYear(data);
+        console.log(results);
+    let resultThumbs = results.map(function(a){
+        if(a.thumb != false){
+            return `<a class="result-cover" href="#${a.id}" data-lity>
+            <img src="${a.thumb}" class="cover-art"></a>
+            <div id="${a.id}" class="lity-hide"><img src="${a.cover_image}">
+            <div class="album-info"><p class="album-year">Release Year: ${a.year}</p><p class="album-label">Album Label: ${a.label}</div></p></div>
+            </div>`;
+        }
+    });
+    $('.search-container').removeClass('sc-topmargin');
+    $('.typeahead').typeahead('close');
+    $('.typeahead').val('');
+    $('.results-container').html(resultThumbs);
 }
 
 function watchSubmit(){
     $('.search-input').submit(function(event) {
         event.preventDefault();
         const searchInputVal = $(this).find('.tt-input').val();
-        determineSearchInputCat(searchInputVal);
+        determineSearchValVaild(searchInputVal);
     })
 }
 
 $(watchSubmit);
 
 //eval if input is genre or style
+function determineSearchValVaild(searchInputVal){
+    let searchValGenreScore = $.inArray(searchInputVal, genres);
+    let searchValStyleScore = $.inArray(searchInputVal, styles);
+    let searchValScore =searchValGenreScore+searchValStyleScore;
+    if(searchValScore >= 0){
+        determineSearchInputCat(searchInputVal);
+    }
+    else{
+        return null;
+    }
+}
+
 function determineSearchInputCat(searchInputVal){
   let searchInputCatScore = $.inArray(searchInputVal,genres);
   if(searchInputCatScore>0){
@@ -49,6 +95,7 @@ function determineSearchInputCat(searchInputVal){
   getDataFromApi();
 }
 
+//typeahead functions
 //typeahead dataset
 const genres = ["Blues","Brass & Military","Children's","Classical","Electronic","Folk, World, & Country","Funk / Soul",
 "Hip-Hop","Jazz","Latin","Non-Music","Pop","Reggae","Rock","Stage & Screen",]
