@@ -44,7 +44,6 @@ function sortDataByYear(data){
 
 function generateCoverThumbs(data){
     let results = sortDataByYear(data);
-        console.log(results);
     let resultCoverString = results.map(function(a){
         if(a.year === undefined){
             a.year = 'Unknown Release Date';
@@ -52,23 +51,30 @@ function generateCoverThumbs(data){
         if(a.thumb != false){
             return `<a class="result-cover" href="#${a.id}" data-lity>
             <img src="${a.thumb}" class="cover-art" alt="cover image for album: ${a.title}">
-            <p class="album-year">${a.year}</p></a>
+            <p class="album-year"><span class="sr-only">Release Year</span>${a.year}</p></a>
             <div id="${a.id}" class="lity-hide"><img class="cover-image" src="${a.cover_image}">
             <div class="album-info"><p class="album-artist-title">${a.title}</p><p class="album-label">Label: ${a.label}</div></p></div>
             </div>`;
     }
 });
     return resultCoverString;
-}
+} 
 
 function showCoverThumbs(data){
-        console.log(data);
     let resultThumbs = generateCoverThumbs(data);
+    let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
     $('.search-container').removeClass('sc-topmargin');
     $('.typeahead').typeahead('close');
     $('.typeahead').val('');
+    $('.aria-results').append(a11yNumOfResults);
     $('.results-container').append(resultThumbs);
     generateMoreCoversFeature();
+}
+
+//a11y functions
+function generateA11yResultsString(data, query){
+    let ariaResultsString = `Showing ${data.results.length} album covers for ${query.genre}${query.style}`;
+    return ariaResultsString;
 }
 
 //functions to handle more results
