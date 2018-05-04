@@ -18,26 +18,34 @@
 <body>
     <div class="search-container sc-topmargin">
         <div class="covers-search">
-            <div class="logo-container">
+            <div class="logo-container" role="banner">
                 <span class="logo-icon">disc</span>
                 <span class="logo"><div class="site-icon"></div>anvas</span>
             </div>
             <div class="typeahead-container">
-                <form class="search-input">
-                    <input class="typeahead" type="text" placeholder="genre // style"><br>
-                    <input class="submit-button" type="submit" value="Explore">
+                <form class="search-input" role="search">
+                        <fieldset>
+                            <lengend class="sr-only">Search for Covers</lengend>
+                            <input class="typeahead" type="text" placeholder="genre // style"><br>
+                            <input class="submit-button" type="submit" value="Inspire">
+                        </fieldset>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="results-container">
-        <span aria-live="assertive" hidden></span>
-    </div>
+    <main role="main">
+        <span class="aria-results sr-only" aria-live="assertive"></span>
 
-    <div class="push"></div>
-    <div class="footer">
-        <span>powered by: </span><br><img src="discogs-logo.png" class="discogs-logo">
-    </div>
+        <div class="results-container"></div>
+    </main>
+
+    <footer>
+        <div class="push"></div>
+        <div class="footer">
+            <span>powered by: </span><br><img src="discogs-logo.png" class="discogs-logo">
+        </div>
+    </footer>
+
 </body>
 </html>

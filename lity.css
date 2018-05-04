@@ -84,7 +84,8 @@
     outline: none !important;
     background-color: rgba(0, 0, 0, .5);
     color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .6)
+    box-shadow: 0 0 8px rgba(0, 0, 0, .6);
+    width: 500px;
   }
   
   .lity-content {
