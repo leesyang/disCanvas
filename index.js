@@ -63,7 +63,7 @@ function generateCoverThumbs(data){
 function showCoverThumbs(data){
     let resultThumbs = generateCoverThumbs(data);
     let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
-    $('.search-container').removeClass('sc-topmargin');
+    $('.push-header').addClass('push-up-header');
     $('.typeahead').typeahead('close');
     $('.typeahead').val('');
     $('.aria-results').append(a11yNumOfResults);

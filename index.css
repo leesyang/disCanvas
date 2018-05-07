@@ -34,7 +34,7 @@ body{
 .site-icon{
     width: 50px;
     height: 50px;
-    background-image: url(disc_icon.png);
+    background-image: url(disc_icon2.png);
     background-size: cover;
 }
 
@@ -56,14 +56,14 @@ fieldset{
 .search-container{
     display:flex;
     justify-content: center;
-    padding-top: 20px;
+/*     padding-top: 20px; */
     padding-bottom: 20px;
     transition: 1s;
 }
 
-.sc-topmargin{
+/* .sc-topmargin{
     padding-top: 300px;
-}
+} */
 
 .covers-search{
     padding-top: 20px;
@@ -90,6 +90,15 @@ fieldset{
 .submit-button:hover{
     background: #cf3800;
     transition: 0.6s;
+}
+
+.push-header{
+    height: 30vh;
+}
+
+.push-up-header{
+    height: 5px;
+    transition: 2s;
 }
 
 /*----------------------typeahead--------------------*/
@@ -270,8 +279,66 @@ span.twitter-typeahead{
     margin-top: 5px;
 }
 
-/*if doesn't work use display:none; height: 0px? possibility*/
+/*-----------------accessibility----------------*/
 .sr-only{
     position: absolute !important;
     clip: rect(1px, 1px, 1px, 1px);
+}
+
+/*--------------@ media css queries-------------- */
+@media only screen and (max-width: 600px) {
+    .results-container{
+        width: 100vw;
+        transition-duration: 0s;
+    }
+    .covers-search{
+        background-color: rgba(51, 51, 51, 1);
+        transition: 2s;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .search-container{
+        padding-top: 5px;
+    }
+    .site-icon{
+        width: 10vw;
+        height: 10vw;
+    }
+    .logo-container{
+        font-size: 10vw;
+    }
+    .album-year{
+        font-size: 3vw;
+    }
+    .submit-button{
+        font-size: 4vw;
+    }
+    .push-header{
+        height: 15vh;
+    }
+    .push-up-header{
+        height: 5px;
+        transition: 2s;
+    }
+}
+
+
+@media only screen and (max-width: 320px){
+    .result-cover img{
+        width:100%;
+    }
+    .result-cover{
+        width: 40vw;
+    }
+    .typeahead, .tt-query, .tt-hint {
+        padding: 8px 5px;
+        font-size: 15px;
+    }
+    .tt-suggestion{
+        font-size: 15px;
+    }
+    .suggestion-cat{
+        font-size: 15px;
+    }
 }
