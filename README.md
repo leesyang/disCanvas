@@ -14,4 +14,4 @@ Search and Results:
 ![search and results](screenshots/results.png)
 
 Viewing:
-![viewing cover](screenshots/view.png
+![viewing cover](screenshots/view.png)
