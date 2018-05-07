@@ -8,10 +8,10 @@ Find inspiration for designing ablum covers for recording artists based on genre
 
 ## Screenshots
 Start:
-![start screen](screenshots/start.png)
+![start screen](screenshots/start.PNG)
 
 Search and Results:
-![search and results](screenshots/results.png)
+![search and results](screenshots/results.PNG)
 
 Viewing:
-![viewing cover](screenshots/view.png
+![viewing cover](screenshots/view.PNG)
