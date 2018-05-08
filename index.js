@@ -64,9 +64,10 @@ function showCoverThumbs(data){
     let resultThumbs = generateCoverThumbs(data);
     let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
     $('.push-header').addClass('push-up-header');
-    $('.typeahead').typeahead('close');
+    $('.search-feedback').addClass('sf-hidden');
     $('.typeahead').val('');
     $('.aria-results').append(a11yNumOfResults);
+    $('.results-container').empty();
     $('.results-container').append(resultThumbs);
     generateMoreCoversFeature();
 }
@@ -94,9 +95,9 @@ function watchMoreResults(){
 function watchSubmit(){
     $('.search-input').submit(function(event) {
         event.preventDefault();
-        $('.results-container').empty();
         const searchInputVal = $(this).find('.tt-input').val();
         determineSearchValVaild(searchInputVal);
+        $('.typeahead').typeahead('close');
     })
 }
 
@@ -104,14 +105,14 @@ $(watchSubmit);
 
 //eval if input is genre or style
 function determineSearchValVaild(searchInputVal){
-    let searchValGenreScore = $.inArray(searchInputVal, genres);
-    let searchValStyleScore = $.inArray(searchInputVal, styles);
+    let searchValGenreScore = $.inArray(searchInputVal, genres); //returns >= 0 if in array
+    let searchValStyleScore = $.inArray(searchInputVal, styles); //returns >= 0 if in array
     let searchValScore =searchValGenreScore+searchValStyleScore;
     if(searchValScore >= 0){
         determineSearchInputCat(searchInputVal);
     }
     else{
-        return null;
+        $('.search-feedback').removeClass('sf-hidden');
     }
 }
 
@@ -194,7 +195,7 @@ var discogsStyles = new Bloodhound({
       name: 'genres',
       source: discogsGenres,
       templates: {
-          header: '<h3 class="suggestion-cat">Genre</h3>'
+        header: '<h3 class="suggestion-cat">Genre</h3>',
       }
   },
   {
@@ -202,6 +203,7 @@ var discogsStyles = new Bloodhound({
       source: discogsStyles,
       templates: {
           header: '<h3 class="suggestion-cat">Styles</h3>'
+          
       }
   });
 });
