@@ -67,7 +67,6 @@ function showCoverThumbs(data){
     $('.search-feedback').addClass('sf-hidden');
     $('.typeahead').val('');
     $('.aria-results').append(a11yNumOfResults);
-    $('.results-container').empty();
     $('.results-container').append(resultThumbs);
     generateMoreCoversFeature();
 }
@@ -110,6 +109,7 @@ function determineSearchValVaild(searchInputVal){
     let searchValScore =searchValGenreScore+searchValStyleScore;
     if(searchValScore >= 0){
         determineSearchInputCat(searchInputVal);
+        $('.results-container').empty();
     }
     else{
         $('.search-feedback').removeClass('sf-hidden');
