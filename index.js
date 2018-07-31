@@ -9,15 +9,15 @@ const discogsQuery = {
 }
 
 function getDataFromApi(){
-    $.ajax({
+    return $.ajax({
         headers: {
             Authorization: 'Discogs key=TvdijmQXQJoVKcxrkFcJ, secret=pzRyTYhlTDzaKHGVEmpCmHHGEgAVflWG'
         },
         dataType: "json",
         url: discogs_search_link,
         data: discogsQuery,
-        success: showCoverThumbs,
     })
+    .done(showCoverThumbs)
 }
 
 function sortByYear(a,b) {
@@ -42,33 +42,68 @@ function sortDataByYear(data){
     return sortedResults;
 }
 
-function generateCoverThumbs(data){
-    let results = sortDataByYear(data);
-    let resultCoverString = results.map(function(a){
-        if(a.year === undefined){
-            a.year = 'Unknown Release Date';
+function preloadImages (data) {
+    let resultsSorted = sortDataByYear(data);
+    let imagesArray = data.results;
+    let newImages = [];
+
+    let loadImagesPromise = new Promise((resolve, reject) => {
+        let loaded = 0;
+
+        const checkLoaded = function() {
+        loaded++;
+        if( loaded == imagesArray.length) {
+            console.log('all images are loaded');
+            resolve(resultsSorted);
         }
-        if(a.thumb != false){
-            return `<a class="result-cover" href="#${a.id}" data-lity>
-            <img src="${a.thumb}" class="cover-art" alt="cover image for album: ${a.title}">
-            <p class="album-year"><span class="sr-only">Release Year</span>${a.year}</p></a>
-            <div id="${a.id}" class="lity-hide"><img class="cover-image" src="${a.cover_image}">
-            <div class="album-info"><p class="album-artist-title">${a.title}</p><p class="album-label">Label: ${a.label}</div></p></div>
-            </div>`;
     }
-});
-    return resultCoverString;
+    
+    for( let i = 0; i < imagesArray.length; i++ ) {
+        newImages[i] = new Image();
+        newImages[i].src = imagesArray[i].thumb;
+        newImages[i].onload = function() {
+            checkLoaded();
+        }
+        newImages[i].onerror = function() {
+            checkLoaded();
+        }
+    }
+    })
+
+    return loadImagesPromise;
+}
+
+function generateCoverThumbs(data){
+    return preloadImages(data)
+    .then((results) => {
+        let coverString = results.map(function(a){
+            if(a.year === undefined){
+                a.year = 'Unknown Release Date';
+            }
+            if(a.thumb != false){
+                return `<a class="result-cover" href="#${a.id}" data-lity>
+                <img src="${a.thumb}" class="cover-art" alt="cover image for album: ${a.title}">
+                <p class="album-year"><span class="sr-only">Release Year</span>${a.year}</p></a>
+                <div id="${a.id}" class="lity-hide"><img class="cover-image" src="${a.cover_image}">
+                <div class="album-info"><p class="album-artist-title">${a.title}</p><p class="album-label">Label: ${a.label}</div></p></div>
+                </div>`;
+            }
+        });
+        return coverString;
+    })
 } 
 
 function showCoverThumbs(data){
-    let resultThumbs = generateCoverThumbs(data);
-    let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
-    $('.push-header').addClass('push-up-header');
-    $('.search-feedback').addClass('sf-hidden');
-    $('.typeahead').val('');
-    $('.aria-results').append(a11yNumOfResults);
-    $('.results-container').append(resultThumbs);
-    generateMoreCoversFeature();
+    return generateCoverThumbs(data).then(string => {
+        let resultThumbs = string;
+        let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
+        $('.push-header').addClass('push-up-header');
+        $('.search-feedback').addClass('sf-hidden');
+        $('.typeahead').val('');
+        $('.aria-results').append(a11yNumOfResults);
+        $('.results-container').append(resultThumbs);
+        generateMoreCoversFeature();  
+    })
 }
 
 //a11y functions
@@ -100,7 +135,7 @@ function watchSubmit(){
     })
 }
 
-$(watchSubmit);
+$(watchSubmit)
 
 //eval if input is genre or style
 function determineSearchValVaild(searchInputVal){
