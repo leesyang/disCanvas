@@ -1,5 +1,5 @@
 body{
-    background: url("music-1645561_1920.jpg") no-repeat center fixed;
+    background: url('assets/images/music-1645561_1920.jpg') no-repeat center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -18,6 +18,7 @@ body{
     color: white;
     padding-left: 5px;
     padding-right: 5px;
+    cursor: context-menu;
 }
 
 .logo-container span:nth-child(1){
@@ -34,7 +35,7 @@ body{
 .site-icon{
     width: 40px;
     height: 40px;
-    background-image: url(disc_icon2.png);
+    background-image: url('assets/images/disc_icon2.png');
     background-size: cover;
 }
 
@@ -65,8 +66,8 @@ fieldset{
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: center;
-    background-color: rgba(0, 0, 0, 1);
-    border: 1px solid rgba(51,51,51);
+    background-color: rgba(0, 0, 0, 0.68);
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.01), 0 6px 20px 0 rgba(255, 255, 255, 0.01);
     border-radius: 10px;
     margin-right: 5px;
     margin-left: 5px;
@@ -83,6 +84,7 @@ fieldset{
     margin-top: 15px;
     padding: 5px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .submit-button:hover{
@@ -242,6 +244,14 @@ span.twitter-typeahead{
 
 .more-results{
     color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.more-results .loader {
+    margin: 0.5em;
 }
 
 .more-covers-button{

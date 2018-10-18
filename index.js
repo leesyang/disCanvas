@@ -97,6 +97,7 @@ function showCoverThumbs(data){
     return generateCoverThumbs(data).then(string => {
         let resultThumbs = string;
         let a11yNumOfResults = generateA11yResultsString(data, discogsQuery);
+        $('.loader').addClass('hidden');
         $('.push-header').addClass('push-up-header');
         $('.search-feedback').addClass('sf-hidden');
         $('.typeahead').val('');
@@ -120,7 +121,7 @@ function generateMoreCoversFeature(){
 
 function watchMoreResults(){
     $('.more-covers-button').click(function(event){
-        $('.more-covers-button').parent().removeClass().addClass('see-more').empty().append('<span class="more-results">More Results --></span>')
+        $('.more-covers-button').parent().removeClass().addClass('see-more').empty().append('<span class="more-results">More Results --><div class="loader"></div></span>')
         discogsQuery.page++;
         getDataFromApi();
     })
@@ -131,6 +132,7 @@ function watchSubmit(){
         event.preventDefault();
         const searchInputVal = $(this).find('.tt-input').val();
         determineSearchValVaild(searchInputVal);
+        $('.loader').removeClass('hidden');
         $('.typeahead').typeahead('close');
     })
 }

@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100i,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet">
     <link rel="stylesheet" href="index.css" type="text/css">
+    <link rel="stylesheet" href="spinner.css" type="text/css">
     <link rel="stylesheet" href="lity.css">
     <title>discCanvas</title>
 </head>
@@ -24,12 +25,13 @@
                 <span class="logo-icon">disc</span>
                 <span class="logo"><div class="site-icon" alt="disc record icon"></div>anvas</span>
             </div>
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             <div class="typeahead-container">
                 <form class="search-input" role="search">
                         <fieldset>
-                            <lengend class="sr-only">Search for Covers</lengend>
+                            <legend class="sr-only">Search for Covers</legend>
                             <input class="typeahead" type="text" placeholder="genre // style"><br>
-                            <input class="submit-button" type="submit" value="Inspire">
+                            <input class="submit-button" type="submit" value="Inspire"><div class="loader hidden"></div>
                         </fieldset>
                 </form>
             </div>
@@ -39,14 +41,13 @@
     
     <main role="main">
         <span class="aria-results sr-only" aria-live="assertive"></span>
-
         <div class="results-container"></div>
     </main>
 
     <div class="push"></div>
     <footer class="footer" role="contentinfo">
         <div>
-            <span>powered by: </span><br><img src="discogs-logo.png" class="discogs-logo" alt="discogs logo">
+            <span>powered by: </span><br><img src="assets/images/discogs-logo.png" class="discogs-logo" alt="discogs logo">
         </div>
     </footer>
 
